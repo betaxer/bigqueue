@@ -61,7 +61,9 @@ public interface IFanOutQueue extends Closeable {
 	 * @throws IOException exception throws if there is any IO error during peek operation.
 	 */
 	public byte[] peek(String fanoutId)  throws IOException;
-	
+
+
+	IndexedItem peekIndexedItem(String fanoutId) throws IOException;
 	
 	/**
 	 * Peek the length of the item at the front of a fan out queue
@@ -212,4 +214,14 @@ public interface IFanOutQueue extends Closeable {
 	 */
 	public long getRearIndex();
 
+
+	class IndexedItem {
+		public final long index;
+		public final byte[] item;
+
+		public IndexedItem(long index, byte[] item) {
+			this.index = index;
+			this.item = item;
+		}
+	}
 }

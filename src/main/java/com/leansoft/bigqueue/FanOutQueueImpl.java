@@ -175,6 +175,24 @@ public class FanOutQueueImpl implements IFanOutQueue {
 	}
 
 	@Override
+	public IndexedItem peekIndexedItem(String fanoutId) throws IOException {
+		try {
+			this.innerArray.arrayReadLock.lock();
+
+			QueueFront qf = this.getQueueFront(fanoutId);
+			if (qf.index.get() == innerArray.getHeadIndex()) {
+				return null; // empty
+			}
+
+			return new IndexedItem(qf.index.get(),
+					innerArray.get(qf.index.get()));
+		}
+		finally {
+			this.innerArray.arrayReadLock.unlock();
+		}
+	}
+
+	@Override
 	public int peekLength(String fanoutId) throws IOException {
 		try {
 			this.innerArray.arrayReadLock.lock();

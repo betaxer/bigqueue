@@ -330,6 +330,21 @@ public class FanOutQueueImpl implements IFanOutQueue {
 	}
 
 	@Override
+	public boolean isValidIndex(long index) {
+		if (this.innerArray.arrayTailIndex.get() <= this.innerArray.arrayHeadIndex.get()) {
+			if (index < this.innerArray.arrayTailIndex.get() || index >= this.innerArray.arrayHeadIndex.get()) {
+				return false;
+			}
+		} else {
+			if (index < this.innerArray.arrayTailIndex.get() && index >= this.innerArray.arrayHeadIndex.get()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	@Override
 	public long size(String fanoutId) throws IOException {
 		try {
 			this.innerArray.arrayReadLock.lock();

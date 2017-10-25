@@ -184,7 +184,9 @@ public interface IFanOutQueue extends Closeable {
      * @throws IOException exception thrown during the operation
      */
     void resetQueueFrontIndex(String fanoutId, long index) throws IOException;
-    
+
+
+    boolean isValidIndex(long index);
 	/**
 	 * Removes all items of a queue, this will empty the queue and delete all back data files.
 	 * 
